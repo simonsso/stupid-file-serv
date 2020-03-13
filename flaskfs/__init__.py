@@ -1,6 +1,6 @@
 import os
 from flask import Flask
-import json
+from flask import request
 
 globalfilesystem = {}
 def create_app(test_config=None):
@@ -34,19 +34,25 @@ def create_app(test_config=None):
 
     @app.route('/files', methods=['GET'])
     def hello():
-        response = {}
-        response ['files']= list (globalfilesystem.keys())
-        return json.JSONEncoder().encode(response)
+        return {
+            'files': list (globalfilesystem.keys())
+        }
 
     @app.route('/files/<filename>', methods=['DELETE'] )
     def deletefile(filename):
-        del globalfilesystem[filename]
-        return "File server:" + filename + "\r\n"
+        if filename in globalfilesystem.keys():
+            del globalfilesystem[filename]
+            return "File server:" + filename + "\r\n"
+        else:
+            return "Error No such file\r\n",410
 
-    @app.route('/files/<filename>', methods=['POST'] )
+    @app.route('/files/<filename>', methods=['POST','PUT'] )
     def createfile(filename):
+        # PUT allows for data to be put mutliple times, POST will check and fail
+        if request.method == 'POST' and filename in globalfilesystem.keys():
+            return "Error file already exists",409
         #Since there is no way of geting the data there is no need to store it
         globalfilesystem[filename] = "dummydata"
-        return "File server created:" + filename + "\r\n" 
+        return "File server created:" + filename + "\r\n",201
 
     return app
