@@ -24,6 +24,7 @@ def create_app(test_config=None):
         pass
 
 
+    # Persistency was not part of the requirements
     # store all files in this global and forget all when retarted.
     globalfilesystem = {}
 
