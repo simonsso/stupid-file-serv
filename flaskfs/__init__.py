@@ -55,4 +55,15 @@ def create_app(test_config=None):
         globalfilesystem[filename] = "dummydata"
         return "File server created:" + filename + "\r\n",201
 
+
+    # Hack to serve the UI from same orgin
+    @app.route('/index.html', methods=['GET'])
+    def root_index():
+        f = open ("client/index.html")
+        return f.read()
+
+    @app.route('/button.js', methods=['GET'])
+    def serve_button():
+        f = open ("client/button.js")
+        return f.read()
     return app
