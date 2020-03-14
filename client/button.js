@@ -95,7 +95,8 @@ var request_full_tab = function(){
                             }
             );
         }else{
-          // Handle no response...
+          res = response;
+          alert(response.ok)
         }
         
         });

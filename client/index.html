@@ -3,11 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <title>Teketeke the resuturant order demo</title>
+    <style>
+        body {
+          background-color: linen;
+        }
+
+        h1 {
+          color: maroon;
+          margin-left: 40px;
+        }
+        h2 {
+          color: maroon;
+          margin-left: 40px;
+        }
+        input, textarea {
+            border: 1px solid black;
+            margin: 0;
+            padding: 0;
+            width: 400px;
+        }
+        div {
+          margin-left: 40px;
+          border:4px dotted blue;
+        }
+        table {
+          border: 4px dotted red;
+
+        }
+    </style>
   </head>
   <body>
 
     <h2>Demonstation simple file server</h2>
-
     <div>
     <input type="checkbox" name="autoupdate" id="UIAutoUpdate" checked/> Auto update
     <script>
@@ -17,11 +44,9 @@
              request_full_tab();
         }
     }
-    setInterval(autoupdate,10);
+    setInterval(autoupdate,1000);
     </script>
     </div>
-
-    <div id="top"></div>
 
     <!-- Load React. -->
     <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
@@ -34,15 +59,16 @@
     <script>
     request_full_tab();    
     </script>
-      </div>
+     
 
-    <table id=bartab>
-    </table>
-    <form id="uploadform">
-      <input  type="text" name="filename" value="example.txt">
-      <textarea id="uploadformfilecontent" name="content">Example content </textarea>
-      <button onClick="post_order(document.getElementById('uploadform'))">
-                                  Upload</button>
-    </form>
+    <ul id=bartab>
+    </ul> </div>
+    <div>
+      <form id="uploadform">
+        <input  type="text" name="filename" rows="1" cols="50" value='example.txt'/><br/>
+        <textarea  name="content" rows="10" cols="50" >Example content </textarea><br/>
+        <button  onClick="post_order(document.getElementById('uploadform'))">Upload</button>
+      </form>
+    </div>
   </body>
 </html>
