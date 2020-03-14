@@ -31,44 +31,101 @@
 
         }
     </style>
+       <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+       <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+       <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin></script>
+   
   </head>
   <body>
 
     <h2>Demonstation simple file server</h2>
-    <div>
-    <input type="checkbox" name="autoupdate" id="UIAutoUpdate" checked/> Auto update
-    <script>
-    var autoupdate=function(){
-        var autoupdate_enambed = document.getElementById("UIAutoUpdate").checked;
-        if (autoupdate_enambed){
-             request_full_tab();
-        }
-    }
-    setInterval(autoupdate,1000);
-    </script>
-    </div>
 
     <!-- Load React. -->
     <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-
+ 
     <!-- Load our React component. -->
     <script src="button.js"></script>
-      <div id=content>
     <script>
-    request_full_tab();    
+
+    </script>
+    <div id='here'>HERE</div>
+
+    <div id='content'>
+    <!-- <script> -->
+    // <script type='text/jsx'>
+    class PostComment extends React.Component {
+      constructor(props) {
+          super(props);
+          this.state = { value: props.value, filename: props.filename };
+          this.handleChangeFileName = this.handleChangeFileName.bind(this);
+          this.handleChangeContent = this.handleChangeContent.bind(this);
+
+          this.handleSubmit = this.handleSubmit.bind(this);
+      }
+
+      handleChangeFileName(e,prop) {
+          e.preventDefault();
+          this.setState({ filename: e.target.value  });
+      }
+
+      handleChangeContent(e) {
+        e.preventDefault();
+        this.setState({ value: e.target.value  });
+      }
+
+      handleSubmit(e) {
+          e.preventDefault();
+          // e.target.body.value = '';
+          const data = this.state.value;
+          let filename = this.state.filename;
+          this.state.filename = "random_filename"+ (Math.floor(Math.random() *100 )) + ".txt";
+          e.target.filename.value = this.state.filename
+
+
+          return fetch('http://localhost:5000/files/'+filename, {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'text/plain',
+              },
+              body: [data]
+            }).then(responese => {
+              if (! responese.ok) {
+                 window.alert("Error posting file, check if "+filename+" already exists");
+              }else{
+                request_full_tab();
+              }
+            });
+      }
+
+      render() {
+          return (
+              <form onSubmit={this.handleSubmit} ref={el => (this.myFormRef = el)}>
+                 <input onChange={this.handleChangeFileName}  type="text" name="filename" rows="1" cols="50" value={this.state.filename}/><br/>
+                  <textarea
+                      rows="3"
+                      name="body"
+                      value={this.state.value}
+                      onChange={this.handleChangeContent}
+                  /><br/>
+                  <button className="btn" type="submit">
+                      Comment
+                  </button>
+              </form>
+          );
+      }
+    } 
+
+    let here = document.getElementById("uploadform")
+    ReactDOM.render(e(PostComment,{value:"Hello",filename:"example0"}), here );
+
+    request_full_tab();
     </script>
      
-
     <ul id=bartab>
     </ul> </div>
-    <div>
-      <form id="uploadform">
-        <input  type="text" name="filename" rows="1" cols="50" value='example.txt'/><br/>
-        <textarea  name="content" rows="10" cols="50" >Example content </textarea><br/>
-        <button  onClick="post_order(document.getElementById('uploadform'))">Upload</button>
-      </form>
-    </div>
+    <div id="uploadform"></div>
+    <div><PostComment></div>
+    
   </body>
 </html>

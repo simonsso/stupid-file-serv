@@ -34,8 +34,10 @@ def create_app(test_config=None):
 
     @app.route('/files', methods=['GET'])
     def hello():
+        files = list (globalfilesystem.keys())
+        files.sort()
         return {
-            'files': list (globalfilesystem.keys())
+            'files': files
         }
 
     @app.route('/files/<filename>', methods=['DELETE'] )

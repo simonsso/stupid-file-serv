@@ -1,6 +1,9 @@
 'use strict';
 
 const e = React.createElement;
+
+
+
 class LikeButton extends React.Component {
   constructor(props) {
     super(props);
@@ -33,6 +36,8 @@ class LikeButton extends React.Component {
   } 
 }   
 
+
+
 class DeleteButton extends React.Component {
   constructor(props) {
     super(props);
@@ -41,7 +46,7 @@ class DeleteButton extends React.Component {
     
   render() {
     if (this.state.liked) { 
-      return "revokation pending"
+      return " revokation pending"
     }
     return e(
       'button',
@@ -52,34 +57,19 @@ class DeleteButton extends React.Component {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                   },
+                }).then(response => { 
+                  if(! response.ok){
+                      alert("While removing file. Error:"+response.status+" "+response.statusText);
+                  }
+                  request_full_tab();
                 });
                 this.setState({liked:true});
       },},"remove ",);
       
     }
 }
-    
 
-var dynamic_menu=function(s){
-   const domContainer = document.querySelector('#top');
-   var p= document.createElement("div");
-   p.append("Some text");
-   domContainer.append(p);
-   ReactDOM.render(e(LikeButton,{xitem:s}), p);
-}
 
-var post_order=function(formObj){
-    var filename = formObj.filename.value
-    var data = formObj.content.value
-    return fetch('http://localhost:5000/files/'+filename, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'text/plain',
-      },
-      body: [data]
-    })
-}
 
 var request_full_tab = function(){
         let bartab=fetch('http://localhost:5000/files', {
@@ -89,14 +79,14 @@ var request_full_tab = function(){
           'Content-Type': 'application/json',
         }}
       ).then(response => {
-        if (response.ok ) {
+        if ( response.ok  ) {
             response.json().then( jsonobj => {
                               print_full_tab(jsonobj['files']) ;
                             }
             );
         }else{
+          window.alert("Error loading file list - reload page manually to retry");
           res = response;
-          alert(response.ok)
         }
         
         });
@@ -119,8 +109,8 @@ var print_full_tab=function(resp){
         li.appendChild(p2);
         ReactDOM.render(e(DeleteButton,{xurl:delete_me_url}), p2);
 
-        //domContainer.append(t);
-        //domContainer.append(time>0?time:" DUE ");
         domContainer.appendChild(li);
     }
 }
+
+
