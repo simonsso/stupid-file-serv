@@ -59,15 +59,15 @@
     class DeleteButton extends React.Component {
       constructor(props) {
         super(props);
-        this.state = { liked: false , xurl:props.xurl };
+        this.state = { liked: false , xfilename:props.xfilename, xurl:props.xurl };
       }
         
       render() {
         if (this.state.liked) { 
-          return " revokation pending"
+          return ""
         }
-        return e(
-          'button',
+        let title = "Remove "+this.state.xfilename;  
+        return e('button',
           { onClick: () => {
                 fetch(this.state.xurl, {
                       method: 'DELETE',
@@ -82,7 +82,7 @@
                       request_full_tab();
                     });
                     this.setState({liked:true});
-          },},"remove ",);    
+          },},title,);    
         }
     }
     
@@ -121,7 +121,7 @@
             let delete_me_url="http://localhost:5000/files/"+responesline;
             li.appendChild(p);
             li.appendChild(p2);
-            ReactDOM.render(e(DeleteButton,{xurl:delete_me_url}), p2);
+            ReactDOM.render(e(DeleteButton,{xfilename:responesline, xurl:delete_me_url}), p2);
     
             domContainer.appendChild(li);
         }
