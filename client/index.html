@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Teketeke the resuturant order demo</title>
+    <title>Simple fileserver demo</title>
     <style>
         body {
           background-color: linen;
@@ -11,10 +11,12 @@
         h1 {
           color: maroon;
           margin-left: 40px;
+          font-family: Arial, Helvetica, sans-serif;
         }
         h2 {
           color: maroon;
           margin-left: 40px;
+          font-family: Arial, Helvetica, sans-serif;
         }
         input, textarea {
             border: 1px solid black;
@@ -24,35 +26,32 @@
         }
         div {
           margin-left: 40px;
-          border:4px dotted blue;
+          /* border:4px dotted blue; */
         }
         table {
-          border: 4px dotted red;
-
+          /* border: 4px dotted red; */
+        }
+        button {
+          margin-left: 20px;
         }
     </style>
-       <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-       <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-       <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin></script>
+
    
   </head>
   <body>
 
-    <h2>Demonstation simple file server</h2>
+    <h1>Demonstation simple file server</h1>
+    <h2>File list</h2>
 
     <!-- Load React. -->
     <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
- 
-    <!-- Load our React component. -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin></script>
     <script src="button.js"></script>
-    <script>
-
-    </script>
-    <div id='here'>HERE</div>
 
     <div id='content'>
-    <!-- <script> -->
-    // <script type='text/jsx'>
+    <script type='text/jsx'>
     class PostComment extends React.Component {
       constructor(props) {
           super(props);
@@ -116,16 +115,15 @@
       }
     } 
 
-    let here = document.getElementById("uploadform")
-    ReactDOM.render(e(PostComment,{value:"Hello",filename:"example0"}), here );
+    ReactDOM.render(e(PostComment,{value:"Hello",filename:"example0.txt"}), document.getElementById("uploadform") );
 
     request_full_tab();
     </script>
      
     <ul id=bartab>
     </ul> </div>
+    <h2>Upload files</h2>
     <div id="uploadform"></div>
-    <div><PostComment></div>
     
   </body>
 </html>

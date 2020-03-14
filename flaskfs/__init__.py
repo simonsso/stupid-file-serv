@@ -28,8 +28,9 @@ def create_app(test_config=None):
     # store all files in this global and forget all when retarted.
     globalfilesystem = {}
 
-    #create some files present on restart.
-    globalfilesystem["index.html"] = "<body>"
+    # uncomment to create some files present on restart.
+    # globalfilesystem["index.html"] = "<body>"
+    # globalfilesystem["startup.sys"] = "Nothing here"
 
 
     @app.route('/files', methods=['GET'])

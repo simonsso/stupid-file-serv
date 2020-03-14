@@ -2,42 +2,6 @@
 
 const e = React.createElement;
 
-
-
-class LikeButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { liked: false , s:props.xitem };
-  }
-    
-  render() {
-    if (this.state.liked) { 
-
-      return 'Table'+(tab)+' Orderd.'+this.state.s.itemname+" will be ready at "+((Date.now() / 1000 | 0)+this.state.s.time);
-    }
-    
-    return e(
-      'button',
-      { onClick: () => {
-              let tablenumer=document.getElementById("UITabNum");
-              let tab=tablenumer?tablenumer.value:0;
-
-              let qty =1;
-              let ans=post_order({
-                    table:tab,
-                    itemname:this.state.s.itemname,
-                    qty:qty,
-                    eta:(Date.now() / 1000 | 0)+this.state.s.time,
-              });
-             }
-      },
-      this.state.s?this.state.s.itemname:'Like'
-    );
-  } 
-}   
-
-
-
 class DeleteButton extends React.Component {
   constructor(props) {
     super(props);
@@ -64,12 +28,9 @@ class DeleteButton extends React.Component {
                   request_full_tab();
                 });
                 this.setState({liked:true});
-      },},"remove ",);
-      
+      },},"remove ",);    
     }
 }
-
-
 
 var request_full_tab = function(){
         let bartab=fetch('http://localhost:5000/files', {
@@ -99,7 +60,7 @@ var print_full_tab=function(resp){
     }
     for (let responesline of resp){
         let li=document.createElement("LI");
-        let t=responesline
+        let t=responesline;
 
         let p= document.createTextNode(responesline);
         let p2 = document.createElement("A");
