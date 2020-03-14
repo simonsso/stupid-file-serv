@@ -8,3 +8,16 @@ run server:
 export FLASK_APP=./flaskfs 
 export FLASK_ENV=development
 python3 -m flask run
+
+
+Output will look something like this:
+$ python3 -m flask run
+ * Serving Flask app "./flaskfs" (lazy loading)
+ * Environment: development
+ * Debug mode: on
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 196-948-859
+
+In this case webinterface is running on http://localhost:5000
