@@ -65,8 +65,4 @@ def create_app(test_config=None):
         f = open ("client/index.html")
         return f.read()
 
-    @app.route('/button.js', methods=['GET'])
-    def serve_button():
-        f = open ("client/button.js")
-        return f.read()
     return app
