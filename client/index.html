@@ -59,11 +59,11 @@
     class DeleteButton extends React.Component {
       constructor(props) {
         super(props);
-        this.state = { liked: false , xfilename:props.xfilename, xurl:props.xurl };
+        this.state = { requested: false , xfilename:props.xfilename, xurl:props.xurl };
       }
         
       render() {
-        if (this.state.liked) { 
+        if (this.state.requested) { 
           return ""
         }
         let title = "Remove "+this.state.xfilename;  
@@ -79,14 +79,14 @@
                       if(! response.ok){
                           alert("While removing file. Error:"+response.status+" "+response.statusText);
                       }
-                      request_full_tab();
+                      request_full_file_list();
                     });
-                    this.setState({liked:true});
+                    this.setState({requested:true});
           },},title,);    
         }
     }
     
-    var request_full_tab = function(){
+    var request_full_file_list = function(){
             let filelist=fetch('http://localhost:5000/files', {
             method:"GET",
             headers: {
@@ -96,7 +96,7 @@
           ).then(response => {
             if ( response.ok  ) {
                 response.json().then( jsonobj => {
-                                  print_full_tab(jsonobj['files']) ;
+                                  print_full_file_list(jsonobj['files']) ;
                                 }
                 );
             }else{
@@ -106,7 +106,7 @@
             });
     }
     
-    var print_full_tab=function(resp){
+    var print_full_file_list=function(resp){
         let domContainer = document.querySelector('#filelist');
         while (domContainer.firstChild) {
           domContainer.removeChild(domContainer.firstChild);
@@ -166,7 +166,7 @@
               if (! responese.ok) {
                  window.alert("Error posting file, check if "+filename+" already exists");
               }else{
-                request_full_tab();
+                request_full_file_list();
               }
             });
       }
@@ -189,7 +189,7 @@
 
     ReactDOM.render(e(UploadContent,{value:"Hello",filename:"example0.txt"}), document.getElementById("uploadform") );
 
-    request_full_tab();
+    request_full_file_list();
     </script>
      
     <ul id=filelist>
