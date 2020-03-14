@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Teketeke the resuturant order demo</title>
+  </head>
+  <body>
+
+    <h2>Demonstation simple file server</h2>
+
+    <div>
+    <input type="checkbox" name="autoupdate" id="UIAutoUpdate" checked/> Auto update
+    <script>
+    var autoupdate=function(){
+        var autoupdate_enambed = document.getElementById("UIAutoUpdate").checked;
+        if (autoupdate_enambed){
+             request_full_tab();
+        }
+    }
+    setInterval(autoupdate,10);
+    </script>
+    </div>
+
+    <div id="top"></div>
+
+    <!-- Load React. -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+
+    <!-- Load our React component. -->
+    <script src="button.js"></script>
+      <div id=content>
+    <script>
+    request_full_tab();    
+    </script>
+      </div>
+
+    <table id=bartab>
+    </table>
+    <form id="uploadform">
+      <input  type="text" name="filename" value="example.txt">
+      <textarea id="uploadformfilecontent" name="content">Example content </textarea>
+      <button onClick="post_order(document.getElementById('uploadform'))">
+                                  Upload</button>
+    </form>
+  </body>
+</html>
