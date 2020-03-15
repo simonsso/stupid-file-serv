@@ -91,7 +91,6 @@
     }
     
     var request_full_file_list = function(){
-      try{
             let filelist=fetch('/files', {
             method:"GET",
             headers: {
@@ -109,7 +108,6 @@
               res = response;
             }         
             });
-        }catch (err){alert(err)}
     }
     
     var print_full_file_list=function(resp){
@@ -153,7 +151,6 @@
       }
 
       handleSubmit(e) {
-        try{
           e.preventDefault();
           // e.target.body.value = '';
           const data = this.state.value;
@@ -176,7 +173,6 @@
                 request_full_file_list();
               }
             });
-          }catch (err){alert(err)}
       }
 
       render() {
@@ -197,12 +193,7 @@
 
     ReactDOM.render(e(UploadContent,{value:"Hello",filename:"example0.txt"}), document.getElementById("uploadform") );
 
-    try{
-      request_full_file_list();
-    }catch (err){
-        alert(err)
-    }
-
+    request_full_tab();
     </script>
      
     <ul id=filelist>
