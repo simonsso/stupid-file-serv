@@ -7,7 +7,13 @@ fn usage_error(){
     println!("Unexpected usage");
     process::exit(0);
 }
-fn main() {
+
+fn delete_remote_file_command(filename:String)-> Result<(), std::error::Error>
+{
+    Err("defalt")
+}
+
+fn main()-> Result<(), Box<dyn std::error::Error>>  {
     let matches = clap_app!(cli_client =>
         (version: "1.0")
         (@setting SubcommandRequiredElseHelp)
@@ -41,11 +47,12 @@ fn main() {
     println!("{}",server);
 
     match matches.subcommand(){
-        ("delete",_) => {println!("del");},
+        ("delete",_) => {delete_remote_file_command("dummy".to_string())?;},
         ("list",args) =>{ println!("list");},
         ("upload",args) =>{ println!("push");},
         _ => { usage_error(); }
 
     }
 
+    Ok(())
 }
