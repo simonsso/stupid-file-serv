@@ -1,19 +1,24 @@
-use std::process;
+use failure::ResultExt;
+use exitfailure::ExitFailure;
 
 #[macro_use]
 extern crate  clap;
 
-fn usage_error(){
+fn usage_error()->Result<(),Error(String)>{
     println!("Unexpected usage");
-    process::exit(0);
+
 }
 
-fn delete_remote_file_command(filename:String)-> Result<(), std::error::Error>
+enum Error{
+    Error(String)
+};
+
+fn delete_remote_file_command(filename:String)-> Result<(), Error>
 {
-    Err("defalt")
+   Ok(())
 }
 
-fn main()-> Result<(), Box<dyn std::error::Error>>  {
+fn main()-> Result<(), ExitFailure>  {
     let matches = clap_app!(cli_client =>
         (version: "1.0")
         (@setting SubcommandRequiredElseHelp)
@@ -42,7 +47,7 @@ fn main()-> Result<(), Box<dyn std::error::Error>>  {
     let server = matches.value_of("SERVER").unwrap_or("http://127.0.0.1:5000/");
     if server.chars().last() != Some('/'){
         println!("Expting last char in url to be a /");
-        usage_error();
+        usage_error()?;
     }
     println!("{}",server);
 
