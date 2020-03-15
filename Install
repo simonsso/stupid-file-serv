@@ -16,9 +16,44 @@ $ python3 -m flask run
  * Serving Flask app "./flaskfs" (lazy loading)
  * Environment: development
  * Debug mode: on
- * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ * Running on http://127.0.0.1:8000/ (Press CTRL+C to quit)
  * Restarting with stat
  * Debugger is active!
  * Debugger PIN: 196-948-859
 
-In this case webinterface is running on http://localhost:5000
+In this case webinterface is running on http://localhost:8000
+
+
+Command line tools
+option 1: cURL based in dir: bin
+install curl with
+sudo apt-get install curl
+
+
+# createfile.sh
+arg: filename  and read content from stdin
+example:
+echo Hello | ./createfile.sh  hello_world.txt
+
+
+# deletefile.sh
+
+removes a list of files from server
+example:
+./deletefile.sh myfile.txt myotherfile.html
+
+
+
+# listfiles.sh
+
+Prints file list in json format as recived from server, output could be piped to any tool to process json for instance jq
+
+example:
+listfiles.sh | jq .files | jq '.[]'
+
+To remove all files simply run
+./deletefile.sh ` ./listfiles.sh | jq .files | jq '.[]'| tr '["]' '[ ]' `
+
+
+
+

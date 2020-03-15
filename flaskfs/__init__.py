@@ -36,14 +36,15 @@ def create_app(test_config=None):
             del globalfilesystem[filename]
             return "File server removed: " + filename + "\r\n"
         else:
-            return "Error No such file\r\n",410
+            return "Error No such file "+filename+"\r\n",410
 
     @app.route('/files/<filename>', methods=['POST','PUT'] )
     def createfile(filename):
         # PUT allows for data to be put mutliple times, POST will check and fail
         if request.method == 'POST' and filename in globalfilesystem.keys():
-            return "Error file already exists",409
-        # print(request.files,request.data)
+            return "Error file already exists\r\n",409
+        # Data supplied with POST as text/plain is found in data
+        # needs to be changed if other mimetypes are used for upload.
         globalfilesystem[filename] = request.data
         return "File server created:" + filename + "\r\n",201
 
