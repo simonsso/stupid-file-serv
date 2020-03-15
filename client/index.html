@@ -117,12 +117,15 @@
         }
         for (let responesline of resp){
             let li=document.createElement("LI");
-            let t=responesline;
-    
-            let p = document.createTextNode(responesline);
+
+            let delete_me_url="/files/"+responesline;
+
+            let p = document.createElement("A");
+            p.href=delete_me_url;
+//            +">responesline</a>");
+            p.text=responesline;
             let p2 = document.createElement("A");
             
-            let delete_me_url="/files/"+responesline;
             li.appendChild(p);
             li.appendChild(p2);
             ReactDOM.render(e(DeleteButton,{xfilename:responesline, xurl:delete_me_url}), p2);
@@ -193,7 +196,7 @@
 
     ReactDOM.render(e(UploadContent,{value:"Hello",filename:"example0.txt"}), document.getElementById("uploadform") );
 
-    request_full_tab();
+    request_full_file_list();
     </script>
      
     <ul id=filelist>

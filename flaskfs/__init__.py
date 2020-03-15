@@ -11,8 +11,8 @@ def create_app(test_config=None):
     globalfilesystem = {}
 
     # uncomment to create some files present on restart.
-    globalfilesystem["index.html"] = "<body>"
-    globalfilesystem["startup.sys"] = "Nothing here"
+    # globalfilesystem["index.html"] = "<body>Nothing <b>to see</b></body>"
+    # globalfilesystem["startup.sys"] = "Nothing here"
 
 
     @app.route('/files', methods=['GET'])
@@ -23,11 +23,18 @@ def create_app(test_config=None):
             'files': files
         }
 
+    @app.route('/files/<filename>', methods=['GET'] )
+    def filecontents(filename):
+        if filename in globalfilesystem.keys():
+            return globalfilesystem[filename]
+        else:
+            return "Error No such file\r\n",410
+
     @app.route('/files/<filename>', methods=['DELETE'] )
     def deletefile(filename):
         if filename in globalfilesystem.keys():
             del globalfilesystem[filename]
-            return "File server:" + filename + "\r\n"
+            return "File server removed: " + filename + "\r\n"
         else:
             return "Error No such file\r\n",410
 
@@ -36,8 +43,8 @@ def create_app(test_config=None):
         # PUT allows for data to be put mutliple times, POST will check and fail
         if request.method == 'POST' and filename in globalfilesystem.keys():
             return "Error file already exists",409
-        #Since there is no way of geting the data there is no need to store it
-        globalfilesystem[filename] = "dummydata"
+        # print(request.files,request.data)
+        globalfilesystem[filename] = request.data
         return "File server created:" + filename + "\r\n",201
 
 
