@@ -48,6 +48,10 @@
     <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+
+    <!-- <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script> -->
+    <!-- <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script> -->
+
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin></script>
 
     <div id='content'>
@@ -87,7 +91,8 @@
     }
     
     var request_full_file_list = function(){
-            let filelist=fetch('http://localhost:5000/files', {
+      try{
+            let filelist=fetch('/files', {
             method:"GET",
             headers: {
               'Accept': 'application/json',
@@ -104,6 +109,7 @@
               res = response;
             }         
             });
+        }catch (err){alert(err)}
     }
     
     var print_full_file_list=function(resp){
@@ -118,7 +124,7 @@
             let p = document.createTextNode(responesline);
             let p2 = document.createElement("A");
             
-            let delete_me_url="http://localhost:5000/files/"+responesline;
+            let delete_me_url="/files/"+responesline;
             li.appendChild(p);
             li.appendChild(p2);
             ReactDOM.render(e(DeleteButton,{xfilename:responesline, xurl:delete_me_url}), p2);
@@ -147,6 +153,7 @@
       }
 
       handleSubmit(e) {
+        try{
           e.preventDefault();
           // e.target.body.value = '';
           const data = this.state.value;
@@ -155,7 +162,7 @@
           e.target.filename.value = this.state.filename
 
 
-          return fetch('http://localhost:5000/files/'+filename, {
+          return fetch('/files/'+filename, {
               method: 'POST',
               headers: {
                 'Accept': 'application/json',
@@ -169,6 +176,7 @@
                 request_full_file_list();
               }
             });
+          }catch (err){alert(err)}
       }
 
       render() {
@@ -189,7 +197,12 @@
 
     ReactDOM.render(e(UploadContent,{value:"Hello",filename:"example0.txt"}), document.getElementById("uploadform") );
 
-    request_full_file_list();
+    try{
+      request_full_file_list();
+    }catch (err){
+        alert(err)
+    }
+
     </script>
      
     <ul id=filelist>

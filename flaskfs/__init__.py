@@ -11,8 +11,8 @@ def create_app(test_config=None):
     globalfilesystem = {}
 
     # uncomment to create some files present on restart.
-    # globalfilesystem["index.html"] = "<body>"
-    # globalfilesystem["startup.sys"] = "Nothing here"
+    globalfilesystem["index.html"] = "<body>"
+    globalfilesystem["startup.sys"] = "Nothing here"
 
 
     @app.route('/files', methods=['GET'])

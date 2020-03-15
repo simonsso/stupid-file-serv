@@ -1,9 +1,10 @@
+Install commands on Ubuntu
+
 sudo apt-get install python3
 pip3 install flask
-
+pip3 install python-dotenv
 
 run server:
-
 
 export FLASK_APP=./flaskfs 
 export FLASK_ENV=development
