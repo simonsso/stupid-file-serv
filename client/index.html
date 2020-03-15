@@ -68,7 +68,7 @@
         
       render() {
         if (this.state.requested) { 
-          return ""
+          return " waiting for server to resond "
         }
         let title = "Remove "+this.state.xfilename;  
         return e('button',
