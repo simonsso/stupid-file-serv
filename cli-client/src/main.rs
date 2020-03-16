@@ -1,19 +1,23 @@
-use failure::ResultExt;
-use exitfailure::ExitFailure;
-
+#[macro_use]
+extern crate simple_error;
+use simple_error::SimpleError;
 #[macro_use]
 extern crate  clap;
 
-fn usage_error()->Result<(),Error(String)>{
-    println!("Unexpected usage");
 
+// use failure::ResultExt;
+use exitfailure::ExitFailure;
+
+// pub enum Error<E> {
+//     UnexpectedError,
+//     UserError,
+//     OtherError(E)
+// }
+fn usage_error() -> Result<(), SimpleError>{
+    Err(SimpleError::new("Usage error"))
 }
 
-enum Error{
-    Error(String)
-};
-
-fn delete_remote_file_command(filename:String)-> Result<(), Error>
+fn delete_remote_file_command(filename:String)-> Result<(), std::io::Error>
 {
    Ok(())
 }

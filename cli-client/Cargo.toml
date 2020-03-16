@@ -8,5 +8,6 @@ edition = "2018"
 
 [dependencies]
 clap = "2.33.0"
-failure = "0.1.7"
+# failure = "0.1.7"
 exitfailure = "0.5.1"
+simple-error = "0.2"
