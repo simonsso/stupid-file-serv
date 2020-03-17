@@ -11,3 +11,6 @@ clap = "2.33.0"
 # failure = "0.1.7"
 exitfailure = "0.5.1"
 simple-error = "0.2"
+#reqwest = { version = "0.10.1" , features = ["blocking","json"]}
+#reqwest = { version = "0.10.1" }
+attohttpc = "0.12"

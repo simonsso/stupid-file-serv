@@ -17,9 +17,11 @@ fn usage_error() -> Result<(), SimpleError>{
     Err(SimpleError::new("Usage error"))
 }
 
-fn delete_remote_file_command(filename:String)-> Result<(), std::io::Error>
+fn delete_remote_file_command(remote_server:String,filename:String)-> Result<(), std::io::Error>
 {
-   Ok(())
+    let url = remote_server+"/files/"+filename;
+    // let rest = reqwest::blocking::delete(filename)?;
+    Ok(())
 }
 
 fn main()-> Result<(), ExitFailure>  {
