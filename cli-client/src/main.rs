@@ -24,6 +24,15 @@ fn delete_remote_file_command(remote_server:&str,filename:&str)-> Result<(), Exi
     Ok(())
 }
 
+fn list_files_command(remote_server:&str)-> Result<(), ExitFailure>
+{
+    let url = remote_server.to_string()+"files";
+    println!("{}",url);
+    let rest = reqwest::blocking::get(&url)?.text()?;
+    println!("{}",rest);
+    Ok(())
+}
+
 fn main()-> Result<(), ExitFailure>  {
     let matches = clap_app!(cli_client =>
         (version: "1.0")
@@ -59,7 +68,7 @@ fn main()-> Result<(), ExitFailure>  {
 
     match matches.subcommand(){
         ("delete",_) => {delete_remote_file_command(server,"dummy")?;},
-        ("list",args) =>{ println!("list");},
+        ("list",args) =>{ list_files_command(server)?;},
         ("upload",args) =>{ println!("push");},
         _ => { usage_error()?; }
 
