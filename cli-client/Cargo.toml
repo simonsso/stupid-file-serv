@@ -11,7 +11,8 @@ clap = "2.33.0"
 # failure = "0.1.7"
 exitfailure = "0.5.1"
 simple-error = "0.2"
-reqwest = { version = "0.10.4" , features = ["blocking","json"]}
+reqwest = { version = "0.10" , features = ["blocking","json"]}
 #attohttpc = "0.12"
 #curl = "0.4"
 hyper = "0.12"
+tokio = { version = "0.2", features = ["full"] }

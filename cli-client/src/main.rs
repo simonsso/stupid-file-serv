@@ -4,7 +4,6 @@ use simple_error::SimpleError;
 #[macro_use]
 extern crate  clap;
 
-
 // use failure::ResultExt;
 use exitfailure::ExitFailure;
 
@@ -19,17 +18,44 @@ fn usage_error() -> Result<(), SimpleError>{
 
 fn delete_remote_file_command(remote_server:&str,filename:&str)-> Result<(), ExitFailure>
 {
+    // let url = remote_server.to_string()+"/files/"+&filename;
+    // // let rest = reqwest::blocking:: 
+    // // (&url)?;
+
+
+    // let client = reqwest::Client::new();
+    // let res = client.delete(&url)
+    // .body("the exact body that is sent")
+    // .send();
+    // // res.w
+    Ok(())
+
+}
+fn push_remote_file_command(remote_server:&str,filename:&str)-> Result<(), ExitFailure>
+{
     let url = remote_server.to_string()+"/files/"+&filename;
-    let rest = reqwest::blocking::get(&url)?;
+    // let rest = reqwest::blocking:: 
+    // (&url)?; 
+
+    let x = async{
+        println!("Try push url {}",url);
+        let client = reqwest::Client::new();
+        let res = client.post(&url)
+        .body("the exact body that is sent")
+        .send().await;
+        println!("Awaited!");
+        res
+    };
+    x.await();
     Ok(())
 }
 
 fn list_files_command(remote_server:&str)-> Result<(), ExitFailure>
 {
-    let url = remote_server.to_string()+"files";
-    println!("{}",url);
-    let rest = reqwest::blocking::get(&url)?.text()?;
-    println!("{}",rest);
+    // let url = remote_server.to_string()+"files";
+    // println!("{}",url);
+    // let rest = reqwest::blocking::get(&url)?.text()?;
+    // println!("{}",rest);
     Ok(())
 }
 
@@ -67,11 +93,16 @@ fn main()-> Result<(), ExitFailure>  {
     println!("{}",server);
 
     match matches.subcommand(){
-        ("delete",_) => {delete_remote_file_command(server,"dummy")?;},
-        ("list",args) =>{ list_files_command(server)?;},
-        ("upload",args) =>{ println!("push");},
-        _ => { usage_error()?; }
+        ("delete",Some(args)) => {
+            delete_remote_file_command(server,args.value_of("REMOTENAME").unwrap())?;
+        },
+        ("list",_args) =>{ list_files_command(server)?;},
+        ("upload",Some(args)) =>{ 
+                println!("push");
+                push_remote_file_command(server,args.value_of("FILENAME").unwrap())?;
 
+            },
+        _ => { usage_error()?; }
     }
 
     Ok(())
