@@ -36,8 +36,6 @@
           margin-left: 20px;
         }
     </style>
-
-   
   </head>
   <body>
 
@@ -122,7 +120,6 @@
 
             let p = document.createElement("A");
             p.href=delete_me_url;
-//            +">responesline</a>");
             p.text=responesline;
             let p2 = document.createElement("A");
             
@@ -155,12 +152,10 @@
 
       handleSubmit(e) {
           e.preventDefault();
-          // e.target.body.value = '';
           const data = this.state.value;
           let filename = this.state.filename;
           this.state.filename = "random_filename"+ (10+Math.floor(Math.random() *90 )) + ".txt";
           e.target.filename.value = this.state.filename
-
 
           return fetch('/files/'+filename, {
               method: 'POST',
