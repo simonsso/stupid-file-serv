@@ -2,10 +2,10 @@
 
 This project contains a simple volatile storage file server, a web client and a commandline client.
  
-The microservice is built on python and flask framework.
-The web client uses some small portion of react and,
-the command line is built in rust and based on several standard crates from crate.io,
-as a bonus the curl scripts used while developing is also included.
+* The microservice is built on python and flask framework.
+* The web client uses some small portion of react and,
+* the command line is built in rust and based on `clap`,`reqwest`,`serde` and other standard crates from crate.io,
+* as a bonus the curl scripts used while developing is also included.
 
 The solution have been built and tested on Ubuntu, Windows 7 and Android, install varies from platform to platform
 
@@ -23,6 +23,7 @@ run server with script run_server.sh  or theese lines:
 
 
 Output will look something like this:
+
     $ python3 -m flask run
     * Serving Flask app "./flaskfs" (lazy loading)
     * Environment: development
@@ -37,7 +38,7 @@ In this case the webinterface is running on http://localhost:8000 and can be acc
 
 # Command line tools
 
-## Option1:
+## Option1, designated client
 
 Precompiled binaries for a few platforms exists in dir ./prebuilt/xx/cli-client
 
@@ -75,23 +76,22 @@ There are three subcommands for upload, delete and list files on server. List an
 
 
 
-## option 2: cURL based in dir: bin
+## option 2, cURL based scripts
 install curl with
     sudo apt-get install curl
 
+The scripts are stored in ./bin/ dir
 
 ### createfile.sh
 arg: filename  and read content from stdin
 example:
 echo Hello | ./createfile.sh  hello_world.txt
 
-
 ### deletefile.sh
 
 removes a list of files from server
 example:
 ./deletefile.sh myfile.txt myotherfile.html
-
 
 ### listfiles.sh
 
