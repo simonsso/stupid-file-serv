@@ -1,3 +1,5 @@
+#Simple file server
+
 This project contains a simple volatile storage file server, a web client and a commandline client.
  
 The microservice is built on python and flask framework.
@@ -5,7 +7,7 @@ The web client uses some small portion of react and,
 the command line is built in rust and based on several standard crates from crate.io,
 as a bonus the curl scripts used while developing is also included.
 
-The soulution have been built and tested on Ubuntu, Windows 7 and Android, install varies from platform to platform
+The solution have been built and tested on Ubuntu, Windows 7 and Android, install varies from platform to platform
 
 
 
@@ -32,7 +34,7 @@ $ python3 -m flask run
  * Debugger is active!
  * Debugger PIN: 196-948-859
 
-In this case webinterface is running on http://localhost:8000 and can be accessed with a browser.
+In this case the webinterface is running on http://localhost:8000 and can be accessed with a browser.
 
 
 Command line tools
@@ -48,8 +50,8 @@ cd cli-client
 cargo build --release
 cp target/release/cli-client ../bin/
 
-run cli-client --help to show the basic usage instrutions bellow.
-There are three subcommands for upload, delete and list files on server. List and upload requiers arguments and list prints to stdout.
+run cli-client --help to show the basic usage instructions below.
+There are three subcommands for upload, delete and list files on server. List and upload require arguments and list prints to stdout.
 
 
 Command line tool for simple file server project
@@ -95,7 +97,7 @@ example:
 
 # listfiles.sh
 
-Prints file list in json format as recived from server, output could be piped to any tool to process json for instance jq
+Prints file list in json format as received from server, output could be piped to any tool to process json for instance jq
 
 example:
 listfiles.sh | jq .files | jq '.[]'
