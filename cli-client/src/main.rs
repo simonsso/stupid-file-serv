@@ -1,11 +1,9 @@
 extern crate simple_error;
+use exitfailure::ExitFailure;
 use simple_error::SimpleError;
 #[macro_use]
 extern crate clap;
-
 extern crate serde;
-use exitfailure::ExitFailure;
-
 use serde::Deserialize;
 
 fn usage_error(s: &str) -> Result<(), SimpleError> {

@@ -1,3 +1,10 @@
+This project contains a simple volatile storage file server, a web client and a commandline client.
+ 
+
+
+
+
+
 Install commands on Ubuntu
 
 sudo apt-get install python3
@@ -55,5 +62,32 @@ To remove all files simply run
 ./deletefile.sh ` ./listfiles.sh | jq .files | jq '.[]'| tr '["]' '[ ]' `
 
 
+Option2:
+
+build: install a working rust toolchain
+cd cli-client
+cargo build --release
+cp target/release/cli-client ../bin/
+
+
+
+Command line tool for simple file server project
+
+USAGE:
+    cli-client [FLAGS] [OPTIONS] <SUBCOMMAND>
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+    -v, --verbose    Verbosely report final result
+
+OPTIONS:
+    -s, --server <SERVER>    Remote server base url - default http://127.1:8000/
+
+SUBCOMMANDS:
+    delete    remove a file on server
+    help      Prints this message or the help of the given subcommand(s)
+    list      list files on server
+    upload    upload a file on to the server
 
 
