@@ -12,6 +12,7 @@ fn usage_error(s: &str) -> Result<(), SimpleError> {
     Err(SimpleError::new(s))
 }
 
+
 fn delete_remote_file_command(remote_server: &str, filename: &str) -> Result<(), ExitFailure> {
     let url = remote_server.to_string() + "files/" + &filename;
 
