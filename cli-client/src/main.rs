@@ -1,9 +1,9 @@
 extern crate simple_error;
-use exitfailure::ExitFailure;
 use simple_error::SimpleError;
 #[macro_use]
 extern crate clap;
 extern crate serde;
+
 use serde::Deserialize;
 
 fn usage_error(s: &str) -> Result<(), SimpleError> {
@@ -11,7 +11,7 @@ fn usage_error(s: &str) -> Result<(), SimpleError> {
 }
 
 
-fn delete_remote_file_command(remote_server: &str, filename: &str) -> Result<(), ExitFailure> {
+fn delete_remote_file_command(remote_server: &str, filename: &str) -> Result<(), Box<dyn std::error::Error> > {
     let url = remote_server.to_string() + "files/" + &filename;
 
     let client = reqwest::blocking::Client::new();
@@ -23,7 +23,7 @@ fn push_remote_file_command(
     remote_server: &str,
     filename: &str,
     remotefilename: &str,
-) -> Result<(), ExitFailure> {
+) -> Result<(), Box<dyn std::error::Error>> {
     let url = remote_server.to_string() + "files/" + &remotefilename;
     let client = reqwest::blocking::Client::new();
     client
@@ -34,7 +34,7 @@ fn push_remote_file_command(
     Ok(())
 }
 
-fn list_files_command(remote_server: &str) -> Result<(), ExitFailure> {
+fn list_files_command(remote_server: &str) -> Result<(), Box<dyn std::error::Error>> {
     #[derive(Deserialize)]
     struct Data {
         files: Vec<String>,
@@ -50,7 +50,7 @@ fn list_files_command(remote_server: &str) -> Result<(), ExitFailure> {
     Ok(())
 }
 
-fn main() -> Result<(), ExitFailure> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let matches = clap_app!(cli_client =>
         (version: "1.0")
         (@setting SubcommandRequiredElseHelp)

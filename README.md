@@ -15,7 +15,7 @@ The solution have been built and tested on Ubuntu, Windows 7 and Android, instal
     pip3 install flask
     pip3 install python-dotenv
 
-run server with script run_server.sh  or theese lines:
+run server with script runserver.sh  or theese lines:
 
     export FLASK_APP=./microservice/flaskfs.py
     export FLASK_ENV=development
