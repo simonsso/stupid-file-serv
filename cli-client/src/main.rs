@@ -1,17 +1,45 @@
-extern crate simple_error;
-use simple_error::SimpleError;
+use std::fmt;
 #[macro_use]
 extern crate clap;
 extern crate serde;
 
 use serde::Deserialize;
 
-fn usage_error(s: &str) -> Result<(), SimpleError> {
-    Err(SimpleError::new(s))
+#[derive(Debug)]
+enum CustomError {
+    HTTPError,
+    IOError,
+    GenericError(String),
+}
+impl std::error::Error for CustomError {}
+
+impl fmt::Display for CustomError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            CustomError::HTTPError => write!(f, "HTTP Error"),
+            CustomError::IOError => write!(f, "IO Error"),
+            CustomError::GenericError(s) => write!(f, "Wrap error: {}", s),
+        }
+    }
 }
 
+impl From<reqwest::Error> for CustomError {
+    fn from(_: reqwest::Error) -> Self {
+        CustomError::HTTPError
+    }
+}
 
-fn delete_remote_file_command(remote_server: &str, filename: &str) -> Result<(), Box<dyn std::error::Error> > {
+impl From<std::io::Error> for CustomError {
+    fn from(_: std::io::Error) -> Self {
+        CustomError::IOError
+    }
+}
+
+fn usage_error(s: &str) -> Result<(), CustomError> {
+    Err(CustomError::GenericError(s.to_string()))
+}
+
+fn delete_remote_file_command(remote_server: &str, filename: &str) -> Result<(), CustomError> {
     let url = remote_server.to_string() + "files/" + &filename;
 
     let client = reqwest::blocking::Client::new();
@@ -23,7 +51,7 @@ fn push_remote_file_command(
     remote_server: &str,
     filename: &str,
     remotefilename: &str,
-) -> Result<(), Box<dyn std::error::Error>> {
+) -> Result<(), CustomError> {
     let url = remote_server.to_string() + "files/" + &remotefilename;
     let client = reqwest::blocking::Client::new();
     client
@@ -34,7 +62,7 @@ fn push_remote_file_command(
     Ok(())
 }
 
-fn list_files_command(remote_server: &str) -> Result<(), Box<dyn std::error::Error>> {
+fn list_files_command(remote_server: &str) -> Result<(), CustomError> {
     #[derive(Deserialize)]
     struct Data {
         files: Vec<String>,
@@ -50,7 +78,7 @@ fn list_files_command(remote_server: &str) -> Result<(), Box<dyn std::error::Err
     Ok(())
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> Result<(), CustomError> {
     let matches = clap_app!(cli_client =>
         (version: "1.0")
         (@setting SubcommandRequiredElseHelp)
