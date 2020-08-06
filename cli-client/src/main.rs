@@ -1,4 +1,6 @@
 use std::fmt;
+extern crate simple_error;
+use simple_error::SimpleError;
 #[macro_use]
 extern crate clap;
 extern crate serde;
@@ -6,6 +8,14 @@ extern crate serde;
 use serde::Deserialize;
 
 #[derive(Debug)]
+
+/// Error handling
+/// Map errors to custom error type
+///
+/// # 1 The error type is an enum with an bracket implantation for std::error::Error
+/// # 2 The error typ must implement fmt::Display
+/// # 3 Create from conversion methods on all errors which could be encountered and a
+///     which customized error it should map to.
 enum CustomError {
     HTTPError,
     IOError,
@@ -34,9 +44,15 @@ impl From<std::io::Error> for CustomError {
         CustomError::IOError
     }
 }
+impl From<simple_error::SimpleError> for CustomError {
+    fn from(e: simple_error::SimpleError) -> Self {
+        CustomError::GenericError(e.as_str().to_string())
+    }
+}
 
-fn usage_error(s: &str) -> Result<(), CustomError> {
-    Err(CustomError::GenericError(s.to_string()))
+// Helper function
+fn usage_error(s: &str) -> Result<(), SimpleError> {
+    Err(SimpleError::new(s))
 }
 
 fn delete_remote_file_command(remote_server: &str, filename: &str) -> Result<(), CustomError> {
@@ -108,23 +124,26 @@ fn main() -> Result<(), CustomError> {
         None => false,
     };
     if server.chars().last() != Some('/') {
-        usage_error("Expting last char in url to be a /")?;
+        usage_error("Expecting last char in url to be a /")?;
     }
 
     match matches.subcommand() {
         ("delete", Some(args)) => {
-            delete_remote_file_command(server, args.value_of("REMOTEFILE").unwrap())?;
+            if let Some(remotefilename) = args.value_of("REMOTEFILE") {
+                delete_remote_file_command(server, remotefilename)?;
+            }
         }
         ("list", _args) => {
             list_files_command(server)?;
         }
         ("upload", Some(args)) => {
-            let localfilename = args.value_of("FILENAME").unwrap();
-            let remotefilename = match args.value_of("REMOTEFILE") {
-                Some(s) => s,
-                None => localfilename,
-            };
-            push_remote_file_command(server, localfilename, remotefilename)?;
+            if let Some(localfilename) = args.value_of("FILENAME") {
+                let remotefilename = match args.value_of("REMOTEFILE") {
+                    Some(s) => s,
+                    None => localfilename,
+                };
+                push_remote_file_command(server, localfilename, remotefilename)?;
+            }
         }
         _ => {
             usage_error("Unexpected error")?;

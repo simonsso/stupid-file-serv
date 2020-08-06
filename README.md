@@ -1,8 +1,8 @@
 # Simple file server
 
-This project contains a simple volatile storage file server, a web client and a commandline client.
+This project contains a simple volatile storage file server, a web client and a command line client.
  
-* The microservice is built on python and flask framework.
+* The micro service is built on python and flask framework.
 * The web client uses some small portion of react and,
 * the command line is built in rust and based on `clap`,`reqwest`,`serde` and other standard crates from crate.io,
 * as a bonus the curl scripts used while developing is also included.
@@ -15,7 +15,7 @@ The solution have been built and tested on Ubuntu, Windows 7 and Android, instal
     pip3 install flask
     pip3 install python-dotenv
 
-run server with script runserver.sh  or theese lines:
+run server with script runserver.sh  or these lines:
 
     export FLASK_APP=./microservice/flaskfs.py
     export FLASK_ENV=development
@@ -33,7 +33,7 @@ Output will look something like this:
     * Debugger is active!
     * Debugger PIN: 196-948-859
 
-In this case the webinterface is running on http://localhost:8000 and can be accessed with a browser.
+In this case the web interface is running on http://localhost:8000 and can be accessed with a browser.
 
 
 # Command line tools
@@ -51,7 +51,7 @@ install a working rust toolchain - on Ubuntu stable works fine, but on Android a
     cp target/release/cli-client ../bin/
 
 `run cli-client` --help to show the basic usage instructions below.
-There are three subcommands for upload, delete and list files on server. List and upload require arguments and list prints to stdout.
+There are three sub-commands for upload, delete and list files on server. List and upload require arguments and list prints to stdout.
 
 
     Command line tool for simple file server project

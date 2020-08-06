@@ -7,7 +7,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
    
     # Persistency was not part of the requirements
-    # store all files in this global and forget all when retarted.
+    # store all files in this global and forget all when restarted.
     globalfilesystem = {}
 
     # uncomment to create some files present on restart.
@@ -40,7 +40,7 @@ def create_app(test_config=None):
 
     @app.route('/files/<filename>', methods=['POST','PUT'] )
     def createfile(filename):
-        # PUT allows for data to be put mutliple times, POST will check and fail
+        # PUT allows for data to be put multiple times, POST will check and fail
         if request.method == 'POST' and filename in globalfilesystem.keys():
             return "Error file already exists\r\n",409
         # Data supplied with POST as text/plain is found in data
@@ -49,7 +49,7 @@ def create_app(test_config=None):
         return "File server created:" + filename + "\r\n",201
 
 
-    # Hack to serve the UI from same orgin
+    # Hack to serve the UI from same origin
     @app.route('/',methods=['GET'])
     @app.route('/index.html', methods=['GET'])
     def root_index():
